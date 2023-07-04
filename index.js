@@ -31,53 +31,98 @@ const questions = [
         name: "installation",
     },
     {
-        type:"input",
+        type: "input",
         message: "Provide usage instructions and examples for use. ",
         name: "usage",
     },
     {
-        type:"input",
-        message: "Please include paths to usage screenshots. ",
+        type: "input",
+        message: "Please include path of webpage screenshot. ",
         name: "screenshot",
     },
     {
         type: "list",
         message: "Please provide the license(s) used.",
         name: "license",
-        choices: 
-        [
-            'Apache License 2.0', 
-            'GNU General Public License v3.0',
-            'MIT License',
-            'BSD 2-Clause "Simplified" License',
-            'Boost Software License 1.0',
-            'Creative Commons Zero v1.0 Universal',
-            'Eclipse Public License 2.0',
-            'GNU Affero General Public License v3.0',
-            'GNU General Public License v2.0',
-            'GNU Lesser General Public License v2.1',
-            'Mozilla Public License v2.0',
-            'The Unlicense'
-        ],
+        choices:
+            [
+                'Apache License 2.0',
+                'GNU General Public License v3.0',
+                'MIT License',
+                'BSD 2-Clause "Simplified" License',
+                'Boost Software License 1.0',
+                'Creative Commons Zero v1.0 Universal',
+                'Eclipse Public License 2.0',
+                'GNU Affero General Public License v3.0',
+                'GNU General Public License v2.0',
+                'GNU Lesser General Public License v2.1',
+                'Mozilla Public License v2.0',
+                'The Unlicense'
+            ],
     },
     {
-        type:"input",
+        type: "input",
         message: `If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so.`,
         name: 'contribution',
     },
     {
         type: "input",
         message: `Go the extra mile and write tests for your application. Then provide examples on how to run them here. `,
-        name: 'test',
+        name: 'tests',
     }
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    fs.writeFile(
+        fileName,
+        `# ${data.title}    
+
+## Description
+${data.description}
+
+
+## Table Of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [How To Contribute](#how-to-contribute)
+- [Tests](#tests)
+- [Questions](#questions)
+       
+
+## Installation
+${data.installation}
+
+## Usage
+${data.usage}
+
+![screenshot of webpage](${data.screenshot})
+
+## License
+${data.license}
+
+## How To Contribute
+${data.contribution}
+
+## Tests
+${data.tests}
+
+## Questions
+If you have any questions, please here is my contact info:
+GitHub: ${data.github}
+Email: ${data.email}`,
+        (err) => err ? console.log(err) : console.log('Successfully generated README.')
+    );
+}
 
 // TODO: Create a function to initialize app
 function init() {
-    inquirer.prompt(questions);
+    inquirer
+        .prompt(questions)
+        .then((data) => {
+            writeToFile('README.md', data);
+        });
 }
 
 // Function call to initialize app
