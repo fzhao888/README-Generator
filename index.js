@@ -1,5 +1,5 @@
 // TODO: Include packages needed for this application
-const generateMarkdown = require('./assets/js/generateMarkdown');
+const generateMarkdown = require('./assets/js/generateMarkdown.js');
 const inquirer = require('inquirer');
 const fs = require("fs");
 
@@ -35,17 +35,13 @@ const questions = [
         message: "Provide usage instructions and examples for use. ",
         name: "usage",
     },
-    {
-        type: "input",
-        message: "Please include path of webpage screenshot. ",
-        name: "screenshot",
-    },
+   
     {
         type: "list",
-        message: "Please provide the license(s) used.",
+        message: "Please provide the license used.",
         name: "license",
         choices:
-            [
+            [   'None',
                 'Apache License 2.0',
                 'GNU General Public License v3.0',
                 'MIT License',
@@ -76,42 +72,7 @@ const questions = [
 function writeToFile(fileName, data) {
     fs.writeFile(
         fileName,
-        `# ${data.title}    
-
-## Description
-${data.description}
-
-
-## Table Of Contents
-- [Installation](#installation)
-- [Usage](#usage)
-- [License](#license)
-- [How To Contribute](#how-to-contribute)
-- [Tests](#tests)
-- [Questions](#questions)
-       
-
-## Installation
-${data.installation}
-
-## Usage
-${data.usage}
-
-![screenshot of webpage](${data.screenshot})
-
-## License
-${data.license}
-
-## How To Contribute
-${data.contribution}
-
-## Tests
-${data.tests}
-
-## Questions
-If you have any questions, please here is my contact info:
-GitHub: ${data.github}
-Email: ${data.email}`,
+        generateMarkdown.generateMarkdown(data),
         (err) => err ? console.log(err) : console.log('Successfully generated README.')
     );
 }
