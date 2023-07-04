@@ -63,7 +63,7 @@ const questions = [
     {
         type:"input",
         message: `If you created an application or package and would like other developers to contribute it, you can include guidelines for how to do so.`,
-        name: 'contribution'
+        name: 'contribution',
     },
     {
         type: "input",
